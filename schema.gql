@@ -3,7 +3,7 @@ type User {
   id: ID
   isDriver: Boolean!
   username: String!
-  friends: [User] @relation
+  friends: [ID]
   routes: [Route] @relation
 }
 
