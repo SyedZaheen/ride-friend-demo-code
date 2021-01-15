@@ -7,7 +7,7 @@ type User {
   routes: [Route] @relation
 }
 
-type Route @embedded {
+type Route {
   user: User
   name: String
   startLocation: String!
