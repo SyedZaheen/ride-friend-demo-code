@@ -2,11 +2,11 @@ type User {
   id: ID
   isDriver: Boolean!
   username: String!
-  friends: [ID]
+  friends: [User]
   routes: [Route] @relation
 }
 
-type Route @embedded {
+type Route {
   user: User
   name: String
   startLocation: String!
