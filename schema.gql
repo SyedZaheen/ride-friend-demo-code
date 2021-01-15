@@ -1,0 +1,18 @@
+type User {
+  id: ID
+  isDriver: Boolean!
+  username: String!
+  friends: [ID]
+  routes: [Route] @relation
+}
+
+type Route @embedded {
+  user: User
+  name: String
+  startLocation: String!
+  startTime: Time!
+  endLocation: String!
+  startRadius: String
+  endRadius: String
+  timeDeviation: Time
+}
