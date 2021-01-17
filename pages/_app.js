@@ -1,8 +1,20 @@
 import "../styles/globals.css";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
+
+const dataBaseLink = new HttpLink({
+  uri: "https://graphql.fauna.com/graphql",
+  headers: {
+    authorization: `Bearer ${process.env.DB_SECRET}`,
+  },
+});
 
 const client = new ApolloClient({
-  uri: "",
+  link: dataBaseLink,
   cache: new InMemoryCache(),
 });
 
