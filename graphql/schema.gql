@@ -1,7 +1,7 @@
 type User {
   authSub: String!
-  isDriver: Boolean!
-  username: String!
+  isDriver: Boolean
+  authName: String!
   friends: [ID]
   routes: [Route] @relation
 }
@@ -15,4 +15,8 @@ type Route {
   startRadius: String
   endRadius: String
   timeDeviation: Time
+}
+
+type Query {
+  getUserByAuthSub(authSub: String!): User
 }
