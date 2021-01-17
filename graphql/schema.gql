@@ -1,6 +1,5 @@
 type User {
   authSub: String!
-  id: ID
   isDriver: Boolean!
   username: String!
   friends: [ID]
