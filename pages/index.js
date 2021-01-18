@@ -14,7 +14,6 @@ export default function Home({ user }) {
 
   return (
     <div>
-      <Navbar />
       <div>{renderContent()}</div>
       <div>
         Perma logour button: <a href="/api/logout">logout</a>
@@ -22,6 +21,10 @@ export default function Home({ user }) {
     </div>
   );
 }
+
+// Every time a user requests for index.js the below function will run
+// function below takes the session object returned from the callback endpoint,
+// extracts the user info from it and puts in the component's props
 
 export async function getServerSideProps({ req, res }) {
   const session = await auth0.getSession(req);

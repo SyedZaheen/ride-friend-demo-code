@@ -8,3 +8,5 @@ export default async function login(req, res) {
     res.status(error.status || 400).end(error.message);
   }
 }
+
+// this route redirects user from our app to the auth0 login page

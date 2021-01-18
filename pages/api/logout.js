@@ -8,3 +8,5 @@ export default async function logout(req, res) {
     res.status(error.status || 400).end(error.message);
   }
 }
+
+// this route logs out the user
