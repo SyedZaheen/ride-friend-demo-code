@@ -1,5 +1,6 @@
 import React from "react";
 import auth0 from "../utils/auth0";
+import Navbar from "../components/Navbar";
 
 export default function Home({ user }) {
   console.log("this is session prop ", user);
@@ -13,7 +14,7 @@ export default function Home({ user }) {
 
   return (
     <div>
-      Hello World
+      <Navbar />
       <div>{renderContent()}</div>
       <div>
         Perma logour button: <a href="/api/logout">logout</a>
