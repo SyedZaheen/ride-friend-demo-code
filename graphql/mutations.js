@@ -1,8 +1,8 @@
-import gql from "graphql-request";
+import gql from "graphql-tag";
 
 export const createUser = (data) => {
   const variables = { data };
-  const query = gql`
+  const mutation = gql`
     mutation createNewUser($data: UserInput!) {
       createUser(data: $data) {
         _id
@@ -10,5 +10,5 @@ export const createUser = (data) => {
       }
     }
   `;
-  return { query, variables };
+  return { mutation, variables };
 };

@@ -1,4 +1,4 @@
-import gql from "graphql-request";
+import gql from "graphql-tag";
 
 // functions in this file and the mutations file return a query string and variables
 // these two are required by graphql-request client to send queries to our db
