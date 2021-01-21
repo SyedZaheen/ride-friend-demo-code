@@ -11,9 +11,9 @@ export default async function callback(req, res) {
     await auth0.handleCallback(req, res, {
       onUserLoaded: async (req, res, session, state) => {
         // we take the user info returned by auth0 and first check if user exists in our fauna db
-
         const { query, variables } = getUserByAuthSub(session.user.sub);
         const faunaUser = await graphqlClient.request(query, variables);
+        console.log(faunaUser);
         if (faunaUser.getUserByAuthSub) {
           // if the user does exist in our fauna db then we take the user's info returned from fauna db
           // and add it to the session object

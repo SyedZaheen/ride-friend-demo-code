@@ -1,21 +1,23 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 import auth0 from "../utils/auth0";
 
-export default function Home({ user }) {
+export default function Home({user}) {
   console.log("this is session prop ", user);
 
   const renderContent = () => {
-    if (user) {
-      return <a href="/api/logout">Logout</a>;
+    if  (user) {
+      return <Navbar isLoggedIn={true} />;
+    } else {
+    return <Navbar isLoggedIn={false} />;
     }
-    return <a href="/api/login">login</a>;
   };
 
   return (
     <div>
       <div>{renderContent()}</div>
       <div>
-        Perma logour button: <a href="/api/logout">logout</a>
+        Permanent logout button: <a href="/api/logout">logout</a>
       </div>
     </div>
   );
