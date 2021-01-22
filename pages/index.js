@@ -6,7 +6,7 @@ export default function Home({user}) {
   console.log("this is session prop ", user);
 
   const renderContent = () => {
-    if  (user) {
+    if (user) {
       return <Navbar isLoggedIn={true} />;
     } else {
     return <Navbar isLoggedIn={false} />;
