@@ -7,6 +7,7 @@ export const createUser = (data) => {
       createUser(data: $data) {
         _id
         authName
+        isDriver
       }
     }
   `;

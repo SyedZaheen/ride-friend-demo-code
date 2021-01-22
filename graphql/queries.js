@@ -11,6 +11,7 @@ export const getUserByAuthSub = (authSub) => {
     query getUserByAuthSub($authSub: String!) {
       getUserByAuthSub(authSub: $authSub) {
         _id
+        isDriver
       }
     }
   `;
