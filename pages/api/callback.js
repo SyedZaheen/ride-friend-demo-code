@@ -19,9 +19,6 @@ export default async function callback(req, res) {
 
           const newSessionObject = { ...session };
           newSessionObject.user["userId"] = faunaUser.getUserByAuthSub._id;
-          newSessionObject.user["isDriver"] =
-            faunaUser.getUserByAuthSub.isDriver;
-
           return newSessionObject;
         } else {
           // if user does not exist in our fauna db then we create the user
@@ -35,7 +32,6 @@ export default async function callback(req, res) {
           const newUser = await graphqlClient.request(mutation, variables);
           const newSessionObject = { ...session };
           newSessionObject.user["userId"] = newUser.getUserByAuthSub._id;
-          newSessionObject.user["isDriver"] = newUser.getUserByAuthSub.isDriver;
         }
       },
       redirectTo: "/",
