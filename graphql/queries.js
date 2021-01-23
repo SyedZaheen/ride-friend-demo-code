@@ -11,12 +11,27 @@ export const getUserByAuthSub = (authSub) => {
     query getUserByAuthSub($authSub: String!) {
       getUserByAuthSub(authSub: $authSub) {
         _id
-        isDriver
       }
     }
   `;
 
   const variables = { authSub };
+
+  return { query, variables };
+};
+
+export const getUserById = (id) => {
+  const query = gql`
+    query getUserById($id: ID!) {
+      findUserByID(id: $id) {
+        _id
+        authName
+        authSub
+        isDriver
+      }
+    }
+  `;
+  const variables = { id };
 
   return { query, variables };
 };
