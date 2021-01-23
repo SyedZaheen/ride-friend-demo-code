@@ -13,3 +13,16 @@ export const createUser = (data) => {
   `;
   return { mutation, variables };
 };
+
+export const updateUser = (id, data) => {
+  const variables = { id, data };
+  const mutation = gql`
+    mutation updateUser($id: ID!, $data: UserInput!) {
+      updateUser(id: $id, data: $data) {
+        _id
+        isDriver
+      }
+    }
+  `;
+  return { mutation, variables };
+};
