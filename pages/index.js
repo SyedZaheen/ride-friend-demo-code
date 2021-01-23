@@ -2,25 +2,30 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import auth0 from "../utils/auth0";
 
-export default function Home({user}) {
-  console.log("this is session prop ", user);
+// Home page will have 3 different states:
+// Not logged in
+// Logged in with all driver/rider stored in database
+// logged in but driver/rider hasn't been selected yet
 
-  const renderContent = () => {
-    if (user) {
-      return <Navbar isLoggedIn={true} />;
-    } else {
-    return <Navbar isLoggedIn={false} />;
-    }
-  };
+export default function Home({ user }) {
+  console.log(user);
 
-  return (
-    <div>
-      <div>{renderContent()}</div>
+  if (user && user.isDriver !== null) {
+    return <div>Normal HomePage Dashboard</div>;
+  }
+
+  if (user && user.isDriver == null) {
+    return (
       <div>
-        Permanent logout button: <a href="/api/logout">logout</a>
+        Show a form prompting the user to select whether he is a driver or
+        passenger
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (!user) {
+    return <div>Show general info about the app</div>;
+  }
 }
 
 // Every time a user requests for index.js the below function will run

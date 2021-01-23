@@ -13,20 +13,25 @@ export default async function callback(req, res) {
         // we take the user info returned by auth0 and first check if user exists in our fauna db
         const { query, variables } = getUserByAuthSub(session.user.sub);
         const faunaUser = await graphqlClient.request(query, variables);
-        console.log(faunaUser);
         if (faunaUser.getUserByAuthSub) {
           // if the user does exist in our fauna db then we take the user's info returned from fauna db
           // and add it to the session object
-          return { ...session, userID: faunaUser.getUserByAuthSub._id };
+
+          const newSessionObject = { ...session };
+          newSessionObject.user["userId"] = faunaUser.getUserByAuthSub._id;
+          return newSessionObject;
         } else {
           // if user does not exist in our fauna db then we create the user
           // all auth0 users have a unique id called "sub", so we need to store this our database
           const { mutation, variables } = createUser({
             authName: session.user.name,
             authSub: session.user.sub,
+            isDriver: null,
+            friends: [],
           });
           const newUser = await graphqlClient.request(mutation, variables);
-          return { ...session, userID: newUser.createUser._id };
+          const newSessionObject = { ...session };
+          newSessionObject.user["userId"] = newUser.getUserByAuthSub._id;
         }
       },
       redirectTo: "/",
