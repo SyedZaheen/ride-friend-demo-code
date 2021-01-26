@@ -29,7 +29,6 @@ export default async function callback(req, res) {
             friends: [],
           });
           const newUser = await graphqlClient.request(mutation, variables);
-          console.log("This is the session: ", session);
           const newSessionObject = { ...session };
           newSessionObject.user["userId"] = newUser.createUser._id;
           return newSessionObject;
