@@ -6,6 +6,17 @@ import { updateUser } from "../graphql/mutations";
 import { useForm } from "react-hook-form";
 import graphqlClient from "../utils/graphqlClient";
 import boolean from "../utils/boolean";
+import Link from "next/link";
+import {
+  Box,
+  Button,
+  Flex,
+  Radio,
+  RadioGroup,
+  VStack,
+  Text,
+  Heading,
+} from "@chakra-ui/react";
 
 // Home page will have 3 different states:
 // Not logged in
@@ -16,12 +27,13 @@ export default function Home(props) {
   const { register, handleSubmit, watch, errors } = useForm();
   const [user, setUser] = useState(props.user);
   const [loading, setLoading] = useState(false);
+  const [formValue, setFormValue] = useState("false");
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async () => {
     const { mutation, variables } = updateUser(user._id, {
       authName: user.authName,
       authSub: user.authSub,
-      isDriver: boolean(data.isDriver),
+      isDriver: boolean(formValue),
     });
     try {
       setLoading(true);
@@ -35,61 +47,100 @@ export default function Home(props) {
 
   const renderIndex = () => {
     if (user && user.isDriver !== null) {
-      return <div>Normal HomePage Dashboard</div>;
+      return (
+        <Box mt="10">
+          <Heading as="h1">Dashboard</Heading>
+        </Box>
+      );
     }
 
     if (user && user.isDriver == null) {
       return (
-        <div>
-          Show a form prompting the user to select whether he is a driver or
-          passenger
-          {!loading && (
+        <Flex alignItems="center" justifyContent="center" mt="30vh">
+          <Box>
+            <Box mb="5">
+              <Heading color="darkGrey" as="h1">
+                Tell us more about yourself...
+              </Heading>
+              <Text color="lightGrey">Are you a driver or a rider?</Text>
+              <Text color="lightGrey">
+                Don't worry, you can always change this option later!
+              </Text>
+            </Box>
             <form onSubmit={onSubmit}>
-              <label for="driver">I am a driver </label>
-              <input
-                type="radio"
-                id="driver"
-                name="isDriver"
-                ref={register}
-                value="true"
-              />
+              <RadioGroup onChange={setFormValue} value={formValue}>
+                <VStack alignItems="left">
+                  <Radio
+                    _active={{ outline: "green" }}
+                    size="lg"
+                    colorScheme="red"
+                    value="true"
+                    defaultChecked
+                  >
+                    I'm a driver
+                  </Radio>
+                  <Radio size="lg" colorScheme="red" value="false">
+                    I'm looking for drivers
+                  </Radio>
+                </VStack>
+              </RadioGroup>
+
               <br />
-              <label for="rider">I am looking for drivers </label>
-              <input
-                type="radio"
-                id="rider"
-                name="isDriver"
-                ref={register}
-                value="false"
-              />
-              <br />
-              <button type="submit">Submit</button>
+
+              {!loading && (
+                <Button
+                  size="lg"
+                  backgroundColor="orange"
+                  color="darkGrey"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              )}
+              {loading && (
+                <Button
+                  size="lg"
+                  isLoading
+                  loadingText="Submitting"
+                  backgroundColor="orange"
+                  color="darkGrey"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              )}
             </form>
-          )}
-          {loading && <p>Loading...</p>}
-        </div>
+          </Box>
+        </Flex>
       );
     }
 
     if (!user) {
-      return <div>Show general info about the app</div>;
+      return (
+        <Box>
+          <Flex alignItems="center" justifyContent="center">
+            <Box>
+              <Heading as="h1">Welcome to Ride Friend</Heading>
+              <Text>
+                Ride Friend is a free service that helps connect drivers and
+                riders
+              </Text>
+              <Text>
+                Find out more by visiting our <Link href="/about">About</Link>{" "}
+                page!
+              </Text>
+            </Box>
+          </Flex>
+        </Box>
+      );
     }
   };
 
   return (
-    <div>
-      <div>
-        <h2>Nav bar</h2>
-        {user && <a href="/api/logout">logout</a>}
-        {!user && <a href="api/login">Login</a>}
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <h2>Home page</h2>
-      <div>{renderIndex()}</div>
-    </div>
+    <Box bg="pink" height="100vh" width="100vw">
+      <Navbar user={user} />
+      <Box>{renderIndex()}</Box>
+    </Box>
   );
 }
 
