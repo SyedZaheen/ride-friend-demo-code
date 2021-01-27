@@ -15,6 +15,7 @@ import boolean from "../utils/boolean";
 export default function Home(props) {
   const { register, handleSubmit, watch, errors } = useForm();
   const [user, setUser] = useState(props.user);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { mutation, variables } = updateUser(user._id, {
@@ -23,7 +24,9 @@ export default function Home(props) {
       isDriver: boolean(data.isDriver),
     });
     try {
+      setLoading(true);
       const faunaResponse = await graphqlClient.request(mutation, variables);
+      setLoading(false);
       setUser(faunaResponse);
     } catch (error) {
       console.log("i am error: ", error);
@@ -40,27 +43,30 @@ export default function Home(props) {
         <div>
           Show a form prompting the user to select whether he is a driver or
           passenger
-          <form onSubmit={onSubmit}>
-            <label for="driver">I am a driver </label>
-            <input
-              type="radio"
-              id="driver"
-              name="isDriver"
-              ref={register}
-              value="true"
-            />
-            <br />
-            <label for="rider">I am looking for drivers </label>
-            <input
-              type="radio"
-              id="rider"
-              name="isDriver"
-              ref={register}
-              value="false"
-            />
-            <br />
-            <button type="submit">Submit</button>
-          </form>
+          {!loading && (
+            <form onSubmit={onSubmit}>
+              <label for="driver">I am a driver </label>
+              <input
+                type="radio"
+                id="driver"
+                name="isDriver"
+                ref={register}
+                value="true"
+              />
+              <br />
+              <label for="rider">I am looking for drivers </label>
+              <input
+                type="radio"
+                id="rider"
+                name="isDriver"
+                ref={register}
+                value="false"
+              />
+              <br />
+              <button type="submit">Submit</button>
+            </form>
+          )}
+          {loading && <p>Loading...</p>}
         </div>
       );
     }
