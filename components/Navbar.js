@@ -1,28 +1,56 @@
 import Logo from "./Logo";
 import Link from "next/link";
 import { Box, Button, Text, Flex } from "@chakra-ui/react";
+import HamburgerDropDown from "./HamburgerDropDown";
 
 const Navbar = ({ user }) => {
   const navButtons = user ? (
-    <Button color="darkGrey" bg="orange">
+    <Button
+      display={{
+        sm: "none",
+        md: "none",
+        lg: "inline-block",
+        xl: "inline-block",
+      }}
+      color="darkGrey"
+      bg="orange"
+    >
       <a href="/api/logout">Logout</a>
     </Button>
   ) : (
-    <Button color="darkGrey" bg="orange">
+    <Button
+      display={{
+        sm: "none",
+        md: "none",
+        lg: "inline-block",
+        xl: "inline-block",
+      }}
+      color="darkGrey"
+      bg="orange"
+    >
       <a href="/api/login">Login</a>
     </Button>
   );
 
   const navLinks = user ? (
     <Box width="30vw">
-      <Flex flexDirection="row" justifyContent="space-between">
+      <Flex
+        display={{
+          sm: "none",
+          md: "none",
+          lg: "flex",
+          xl: "flex",
+        }}
+        flexDirection="row"
+        justifyContent="space-between"
+      >
         <Text
           color="pink"
           fontWeight="600"
           _hover={{ color: "orange" }}
           fontSize="xl"
         >
-          <Link href="/index">Home</Link>
+          <Link href="/">Home</Link>
         </Text>
         <Text
           color="pink"
@@ -30,7 +58,7 @@ const Navbar = ({ user }) => {
           _hover={{ color: "orange" }}
           fontSize="xl"
         >
-          <Link href="/friends">Friends</Link>
+          <Link href="/">Friends</Link>
         </Text>
         <Text
           color="pink"
@@ -38,7 +66,7 @@ const Navbar = ({ user }) => {
           _hover={{ color: "orange" }}
           fontSize="xl"
         >
-          <Link href="/routes">Routes</Link>
+          <Link href="/">Routes</Link>
         </Text>
         <Text
           color="pink"
@@ -46,7 +74,7 @@ const Navbar = ({ user }) => {
           _hover={{ color: "orange" }}
           fontSize="xl"
         >
-          <Link href="/settings">Settings</Link>
+          <Link href="/">Profile</Link>
         </Text>
       </Flex>
     </Box>
@@ -62,6 +90,16 @@ const Navbar = ({ user }) => {
         </Text>
         {navLinks}
         {navButtons}
+        <Box
+          display={{
+            sm: "block",
+            md: "block",
+            lg: "none",
+            xl: "none",
+          }}
+        >
+          <HamburgerDropDown />
+        </Box>
       </Flex>
     </Box>
   );

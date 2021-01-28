@@ -129,6 +129,10 @@ export default function Home(props) {
                 Find out more by visiting our <Link href="/about">About</Link>{" "}
                 page!
               </Text>
+              <Text>
+                Here we will put a beautiful landing page with various sections
+                such as "About us", "Our Mission", "How it works"...
+              </Text>
             </Box>
           </Flex>
         </Box>
