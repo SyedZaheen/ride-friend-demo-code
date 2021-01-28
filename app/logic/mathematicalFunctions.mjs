@@ -50,7 +50,27 @@ export const dataGenerator = {
   randomRadius: () => 0.5 + Math.floor(Math.random() * 11) * 0.1,
   // This function generates a random radius between 0.5km and 1.5km
 
-  randomTimeBuffer: () => 15 + Math.floor(Math.random() * 31)
+  randomTimeBuffer: () => 15 + Math.floor(Math.random() * 31),
   // This function generates a random time buffer between 15 and 45 minutes
-
 };
+
+export function calculateUnitScore(
+  maxScore,
+  k,
+  deviation,
+  percentageAtDeviation,
+  distance
+) {
+  let m =
+    (Math.E ** (-deviation * k) - percentageAtDeviation) /
+    (percentageAtDeviation - 1);
+  let l = maxScore * m + maxScore * Math.E ** (-deviation * k);
+  return l / (m + Math.E ** (k * (distance - deviation)));
+}
+
+export function calculateTotalScore(distance, k, deviation1, deviation2) {
+  return (
+    calculateUnitScore(333 / 2, k, deviation1, 0.6, distance / 2) +
+    calculateUnitScore(333 / 2, k, deviation2, 0.6, distance / 2)
+  );
+}

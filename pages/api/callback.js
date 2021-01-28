@@ -13,10 +13,10 @@ export default async function callback(req, res) {
         // we take the user info returned by auth0 and first check if user exists in our fauna db
         const { query, variables } = getUserByAuthSub(session.user.sub);
         const faunaUser = await graphqlClient.request(query, variables);
-        if (faunaUser.getUserByAuthSub) {
+        if (faunaUser.getUserByAuthSub !== null ) {
           // if the user does exist in our fauna db then we take the user's info returned from fauna db
           // and add it to the session object
-
+          
           const newSessionObject = { ...session };
           newSessionObject.user["userId"] = faunaUser.getUserByAuthSub._id;
           return newSessionObject;
