@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Input, Box, Text } from "@chakra-ui/react";
 
-const Search = () => {
+const Search = (props) => {
   const [term, setTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -47,23 +49,36 @@ const Search = () => {
   });
 
   const renderedResults = results.map((result) => {
-    return <div>{result.description}</div>;
+    return (
+      <Box
+        p={2}
+        fontWeight={600}
+        cursor="pointer"
+        _hover={{ bg: "gray.50" }}
+        key={result.description}
+        onMouseDownCapture={() => setTerm(result.description)}
+      >
+        {result.description}
+      </Box>
+    );
   });
 
   return (
-    <div>
-      <div>
-        <div>
-          <label>Enter Start location</label>
-          <input
-            onChange={(e) => setTerm(e.target.value)}
-            value={term}
-            type="text"
-          />
-        </div>
-      </div>
-      <div>{renderedResults}</div>
-    </div>
+    <Box>
+      <Box>
+        <Text>{props.label}</Text>
+        <Input
+          onFocus={() => setSuggestionsOpen(true)}
+          onBlur={() => setSuggestionsOpen(false)}
+          onChange={(e) => setTerm(e.target.value)}
+          value={term}
+          type="text"
+        />
+      </Box>
+      <Box boxShadow="xl" display={suggestionsOpen ? "static" : "none"}>
+        {renderedResults}
+      </Box>
+    </Box>
   );
 };
 
