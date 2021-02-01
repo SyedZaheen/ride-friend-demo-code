@@ -14,7 +14,7 @@ const Search = (props) => {
     const timerId = setTimeout(() => {
       setDebouncedTerm(term);
     }, 1000);
-
+    props.setLocation(term);
     return () => {
       clearTimeout(timerId);
     };
@@ -56,7 +56,9 @@ const Search = (props) => {
         cursor="pointer"
         _hover={{ bg: "gray.50" }}
         key={result.description}
-        onMouseDownCapture={() => setTerm(result.description)}
+        onMouseDownCapture={() => {
+          setTerm(result.description);
+        }}
       >
         {result.description}
       </Box>
@@ -70,7 +72,9 @@ const Search = (props) => {
         <Input
           onFocus={() => setSuggestionsOpen(true)}
           onBlur={() => setSuggestionsOpen(false)}
-          onChange={(e) => setTerm(e.target.value)}
+          onChange={(e) => {
+            setTerm(e.target.value);
+          }}
           value={term}
           type="text"
         />

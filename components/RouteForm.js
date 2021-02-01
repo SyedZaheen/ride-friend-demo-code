@@ -1,20 +1,29 @@
 import {
-  Box,
   Text,
   Input,
   InputGroup,
   InputRightAddon,
+  Button,
 } from "@chakra-ui/react";
 import React, { Component } from "react";
 import Search from "../components/Search";
 
 class RouteForm extends Component {
+  state = { pickupLocation: "", dropOffLocation: "", processedFormData: {} };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   render() {
     return (
-      <Box>
+      <form onSubmit={this.handleSubmit}>
         <Text>Route nick name</Text>
         <Input type="text" placeholder="enter a nickname, eg. home to work" />
-        <Search label="Pick-up location" />
+        <Search
+          setLocation={(value) => this.setState({ pickupLocation: value })}
+          label="Pick-up location"
+        />
         <Text>Pick-up time</Text>
         <Input type="time" placeholder="enter a pick-up time" />
         <Text>Pick-up Radius</Text>
@@ -26,7 +35,10 @@ class RouteForm extends Component {
           <InputRightAddon children="metres" />
         </InputGroup>
 
-        <Search label="Drop-off location" />
+        <Search
+          setLocation={(value) => this.setState({ dropOffLocation: value })}
+          label="Drop-off location"
+        />
         <Text>Destination Radius</Text>
         <InputGroup>
           <Input
@@ -35,7 +47,8 @@ class RouteForm extends Component {
           />
           <InputRightAddon children="metres" />
         </InputGroup>
-      </Box>
+        <Button type="submit">Save route</Button>
+      </form>
     );
   }
 }
