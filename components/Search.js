@@ -18,11 +18,18 @@ const Search = () => {
 
   useEffect(() => {
     const search = async () => {
-      const { data } = await axios.get("", {
-        params: {},
-      });
+      const { data } = await axios.get(
+        "https://maps.googleapis.com/maps/api/place/autocomplete/json?",
+        {
+          params: {
+            key: "",
+            input: term,
+          },
+        }
+      );
 
       setResults(data.query.search);
+      console.log(data);
     };
     if (debouncedTerm.length) {
       search();
