@@ -58,5 +58,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// testing git patch
