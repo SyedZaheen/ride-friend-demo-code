@@ -2,19 +2,22 @@ type User {
   authSub: String!
   isDriver: Boolean
   authName: String!
+  sex: String
+  sexPreference: Boolean
   friends: [ID]
-  routes: [Route] @relation
+  routes: [Route!] @relation
 }
 
 type Route {
-  user: User
-  name: String
-  startLocation: String!
+  user: User!
+  nickName: String!
+  startLocation: Location!
   startTime: Time!
-  endLocation: String!
-  startRadius: String
-  endRadius: String
-  timeDeviation: Time
+  endLocation: Location!
+  startRadius: Number!
+  endRadius: Number!
+  timeDeviation: Time!
+  returnRoute: Route!
 }
 
 type Query {
