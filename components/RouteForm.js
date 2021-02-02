@@ -5,30 +5,65 @@ import {
   InputRightAddon,
   Button,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { Component } from "react";
 import Search from "../components/Search";
 
 class RouteForm extends Component {
-  state = { pickupLocation: "", dropOffLocation: "", processedFormData: {} };
+  state = {
+    pickUpLocation: "",
+    dropOffLocation: "",
+    nickName: "",
+    pickUpTime: "",
+    pickUpDeviation: "",
+    dropOffDeviation: "",
+    timeDeviation: "",
+  };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await axios.post("http://localhost:3000/route-create", {
+      data: this.state,
+    });
+    console.log(response);
   };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <Text>Route nick name</Text>
-        <Input type="text" placeholder="enter a nickname, eg. home to work" />
+        <Input
+          value={this.state.nickName}
+          onChange={(e) => this.setState({ nickName: e.target.value })}
+          type="text"
+          placeholder="enter a nickname, eg. home to work"
+        />
         <Search
-          setLocation={(value) => this.setState({ pickupLocation: value })}
+          setLocation={(value) => this.setState({ pickUpLocation: value })}
           label="Pick-up location"
         />
         <Text>Pick-up time</Text>
-        <Input type="time" placeholder="enter a pick-up time" />
+        <Input
+          value={this.state.pickUpTime}
+          onChange={(e) => this.setState({ pickUpTime: e.target.value })}
+          type="time"
+          placeholder="enter a pick-up time"
+        />
+        <Text>Pick-up time deviation</Text>
+        <InputGroup>
+          <Input
+            value={this.state.timeDeviation}
+            onChange={(e) => this.setState({ timeDeviation: e.target.value })}
+            type="number"
+            placeholder="enter acceptable time deviation from your pickup time"
+          />
+          <InputRightAddon children="minutes" />
+        </InputGroup>
         <Text>Pick-up Radius</Text>
         <InputGroup>
           <Input
+            value={this.state.pickUpDeviation}
+            onChange={(e) => this.setState({ pickUpDeviation: e.target.value })}
             type="number"
             placeholder="Acceptable pick-up location deviation?"
           />
@@ -42,6 +77,10 @@ class RouteForm extends Component {
         <Text>Destination Radius</Text>
         <InputGroup>
           <Input
+            value={this.state.dropOffDeviation}
+            onChange={(e) =>
+              this.setState({ dropOffDeviation: e.target.value })
+            }
             type="number"
             placeholder="Acceptable drop-off location deviation?"
           />

@@ -16,6 +16,26 @@ app
     server.use(cors());
     server.use(express.json());
 
+    server.post("/route-create", async (req, res) => {
+      const pickUpCoords = {};
+      const dropOffCoords = {};
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body.data.pickUpLocation}&key=${googleApiKey}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          pickUpCoords = json.results[0].geometry.location;
+        });
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body.data.dropOffLocation}&key=${googleApiKey}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          dropOffCoords = json.results[0].geometry.location;
+        });
+      res.send("ok");
+    });
+
     server.get("/autocomplete-api", async (req, res) => {
       const { input, latitude, longitude } = req.query;
       fetch(
