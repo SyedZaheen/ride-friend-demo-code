@@ -18,11 +18,11 @@ type Route {
   user: User!
   nickName: String!
   startLocation: Location!
-  startTime: Time!
+  startTime: Int!
   endLocation: Location!
   startRadius: Int!
   endRadius: Int!
-  timeDeviation: Time!
+  timeDeviation: Int!
   returnRoute: Route
 }
 
