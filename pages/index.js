@@ -8,16 +8,7 @@ import { useForm } from "react-hook-form";
 import graphqlClient from "../utils/graphqlClient";
 import boolean from "../utils/boolean";
 import Link from "next/link";
-import {
-  Box,
-  Button,
-  Flex,
-  Radio,
-  RadioGroup,
-  VStack,
-  Text,
-  Heading,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Heading } from "@chakra-ui/react";
 
 // Home page will have 3 different states:
 // Not logged in

@@ -22,16 +22,13 @@ const Search = (props) => {
 
   useEffect(() => {
     const search = async () => {
-      const response = await axios.get(
-        "http://localhost:3000/autocomplete-api",
-        {
-          params: {
-            input: debouncedTerm,
-            latitude,
-            longitude,
-          },
-        }
-      );
+      const response = await axios.get("/api/autocomplete", {
+        params: {
+          input: debouncedTerm,
+          latitude,
+          longitude,
+        },
+      });
 
       setResults(response.data.predictions);
       console.log(response);
