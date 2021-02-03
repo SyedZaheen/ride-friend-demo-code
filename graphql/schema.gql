@@ -1,9 +1,15 @@
+type Location @embedded {
+  lat: Number!
+  lng: Number!
+  description: String!
+}
+
 type User {
   authSub: String!
   isDriver: Boolean
   authName: String!
   sex: String
-  sexPreference: Boolean
+  wantSameSex: Boolean
   friends: [ID]
   routes: [Route!] @relation
 }
