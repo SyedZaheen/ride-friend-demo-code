@@ -18,6 +18,7 @@ class RouteForm extends Component {
     pickUpDeviation: "",
     dropOffDeviation: "",
     timeDeviation: "",
+    userId: this.props.userId,
   };
 
   handleSubmit = async (e) => {
@@ -28,7 +29,8 @@ class RouteForm extends Component {
     console.log(response);
   };
 
-  render() {
+  render = () => {
+    console.log(this.state);
     return (
       <form onSubmit={this.handleSubmit}>
         <Text>Route nick name</Text>
@@ -89,7 +91,7 @@ class RouteForm extends Component {
         <Button type="submit">Save route</Button>
       </form>
     );
-  }
+  };
 }
 
 export default RouteForm;

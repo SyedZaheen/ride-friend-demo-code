@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": " NODE_ENV=development nodemon ./server/server.js",
     "build": "next build",
-    "start": "next start"
+    "start": " NODE_ENV=production node ./server/server.js"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.16.0",
