@@ -23,7 +23,7 @@ class RouteForm extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:3000/route-create", {
+    const response = await axios.post("/api/routes/create", {
       data: this.state,
     });
     console.log(response);

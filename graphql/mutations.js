@@ -26,3 +26,16 @@ export const updateUser = (id, data) => {
   `;
   return { mutation, variables };
 };
+
+export const createRoute = (data) => {
+  const variables = { data };
+  const mutation = gql`
+    mutation createRoute($data: RouteInput!) {
+      createRoute(data: $data) {
+        nickName
+        _id
+      }
+    }
+  `;
+  return { mutation, variables };
+};
