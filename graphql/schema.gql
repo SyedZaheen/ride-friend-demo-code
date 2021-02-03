@@ -1,6 +1,6 @@
 type Location @embedded {
-  lat: Number!
-  lng: Number!
+  lat: Float!
+  lng: Float!
   description: String!
 }
 
@@ -20,10 +20,10 @@ type Route {
   startLocation: Location!
   startTime: Time!
   endLocation: Location!
-  startRadius: Number!
-  endRadius: Number!
+  startRadius: Int!
+  endRadius: Int!
   timeDeviation: Time!
-  returnRoute: Route!
+  returnRoute: Route
 }
 
 type Query {
