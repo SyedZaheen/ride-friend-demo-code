@@ -20,7 +20,7 @@ export const updateUser = (id, data) => {
     mutation updateUser($id: ID!, $data: UserInput!) {
       updateUser(id: $id, data: $data) {
         _id
-        isDriver
+        authSub
       }
     }
   `;

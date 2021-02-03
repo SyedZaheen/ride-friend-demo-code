@@ -8,7 +8,7 @@ type User {
   authSub: String!
   isDriver: Boolean
   authName: String!
-  sex: String
+  isMale: Boolean
   wantSameSex: Boolean
   friends: [ID]
   routes: [Route!] @relation

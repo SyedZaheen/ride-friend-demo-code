@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import CustomRadioGroup from "../components/CustomRadioGroup";
 import auth0 from "../utils/auth0";
 import { getUserById } from "../graphql/queries";
 import { updateUser } from "../graphql/mutations";
@@ -27,13 +28,17 @@ export default function Home(props) {
   const { register, handleSubmit, watch, errors } = useForm();
   const [user, setUser] = useState(props.user);
   const [loading, setLoading] = useState(false);
-  const [formValue, setFormValue] = useState("false");
+  const [isDriver, setIsDriver] = useState("false");
+  const [isMale, setIsMale] = useState("false");
+  const [wantSameSex, setWantSameSex] = useState("false");
 
   const onSubmit = handleSubmit(async () => {
     const { mutation, variables } = updateUser(user._id, {
       authName: user.authName,
       authSub: user.authSub,
-      isDriver: boolean(formValue),
+      isDriver: boolean(isDriver),
+      isMale: boolean(isMale),
+      wantSameSex: boolean(wantSameSex),
     });
     try {
       setLoading(true);
@@ -62,28 +67,47 @@ export default function Home(props) {
               <Heading color="darkGrey" as="h1">
                 Tell us more about yourself...
               </Heading>
-              <Text color="lightGrey">Are you a driver or a rider?</Text>
               <Text color="lightGrey">
-                Don't worry, you can always change this option later!
+                Don't worry, you can always change these options later!
               </Text>
             </Box>
             <form onSubmit={onSubmit}>
-              <RadioGroup onChange={setFormValue} value={formValue}>
-                <VStack alignItems="left">
-                  <Radio
-                    _active={{ outline: "green" }}
-                    size="lg"
-                    colorScheme="red"
-                    value="true"
-                    defaultChecked
-                  >
-                    I'm a driver
-                  </Radio>
-                  <Radio size="lg" colorScheme="red" value="false">
-                    I'm looking for drivers
-                  </Radio>
-                </VStack>
-              </RadioGroup>
+              <CustomRadioGroup
+                callback={setIsDriver}
+                value={isDriver}
+                label="Are you a driver or a rider?"
+                choices={[
+                  { label: "I'm a driver", value: "true" },
+                  { label: "I'm looking for drivers", value: "false" },
+                ]}
+              />
+
+              <br />
+
+              <CustomRadioGroup
+                callback={setIsMale}
+                value={isMale}
+                label="What is your sex?"
+                choices={[
+                  { label: "Male", value: "true" },
+                  { label: "Female", value: "false" },
+                ]}
+              />
+
+              <br />
+
+              <CustomRadioGroup
+                callback={setWantSameSex}
+                value={wantSameSex}
+                label="what is your preference?"
+                choices={[
+                  { label: "I prefer riding with the same sex", value: "true" },
+                  {
+                    label: "I am comfortable riding with the opposite sex",
+                    value: "false",
+                  },
+                ]}
+              />
 
               <br />
 
