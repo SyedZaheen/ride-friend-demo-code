@@ -20,6 +20,23 @@ export const getUserByAuthSub = (authSub) => {
   return { query, variables };
 };
 
+export const getRoutesByUserId = (id) => {
+  const variables = { id };
+  const query = gql`
+    query getRoutesByUserId($id: ID!) {
+      findUserByID(id: $id) {
+        routes {
+          data {
+            nickName
+            _id
+          }
+        }
+      }
+    }
+  `;
+  return { query, variables };
+};
+
 export const getUserById = (id) => {
   const query = gql`
     query getUserById($id: ID!) {
