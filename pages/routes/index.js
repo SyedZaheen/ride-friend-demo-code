@@ -5,7 +5,31 @@ import { getUserById } from "../../graphql/queries";
 
 const Routes = (props) => {
   console.log(props);
-  return <div>List of routes</div>;
+  return (
+    <div>
+      <h1>My routes</h1>
+      <div>
+        {props.routes.map((route) => {
+          if (!route.returnRoute) {
+            return (
+              <div>
+                <h2>{route.nickName}</h2>
+                <p>
+                  Add a return trip to this route!{" "}
+                  <a href={`/routes/${route._id}`}>Add now</a>
+                </p>
+              </div>
+            );
+          }
+          return (
+            <div>
+              <h2>{route.nickName}</h2>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default Routes;

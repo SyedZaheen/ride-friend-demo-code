@@ -29,6 +29,9 @@ export const getRoutesByUserId = (id) => {
           data {
             nickName
             _id
+            returnRoute {
+              nickName
+            }
           }
         }
       }
