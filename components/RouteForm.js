@@ -27,14 +27,18 @@ class RouteForm extends Component {
     returnPickUpDeviation: "",
     returnDropOffDeviation: "",
     returnTimeDeviation: "",
+    loading: false,
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    this.setState({ loading: true });
     const response = await axios.post("/api/routes/create", {
       data: this.state,
     });
     console.log(response);
+    this.setState({ loading: false });
+    this.props.setSuccess(true);
   };
 
   render = () => {
@@ -175,7 +179,28 @@ class RouteForm extends Component {
             </InputGroup>
           </div>
         )}
-        <Button type="submit">Save route</Button>
+        {!this.state.loading && (
+          <Button
+            size="lg"
+            backgroundColor="orange"
+            color="darkGrey"
+            type="submit"
+          >
+            Save route
+          </Button>
+        )}
+        {this.state.loading && (
+          <Button
+            size="lg"
+            isLoading
+            loadingText="Submitting"
+            backgroundColor="orange"
+            color="darkGrey"
+            type="submit"
+          >
+            Submit
+          </Button>
+        )}
       </form>
     );
   };

@@ -1,20 +1,26 @@
-import { Box, Button } from "@chakra-ui/react";
-import React, { Component } from "react";
+import { Box } from "@chakra-ui/react";
+import React, { useState } from "react";
 import RouteForm from "../../components/RouteForm";
 import auth0 from "../../utils/auth0";
 import { getUserById } from "../../graphql/queries";
 import graphqlClient from "../../utils/graphqlClient";
+import { useRouter } from "next/router";
 
-class RouteCreate extends Component {
-  render = () => {
-    return (
-      <Box p={5}>
-        <h1>Create a new Route</h1>
-        <RouteForm userId={this.props.user?._id} />
-      </Box>
-    );
-  };
-}
+const RouteCreate = (props) => {
+  const router = useRouter();
+  const [success, setSuccess] = useState(false);
+
+  if (success) {
+    router.push("/");
+  }
+
+  return (
+    <Box p={5}>
+      <h1>Create a new Route</h1>
+      <RouteForm setSuccess={setSuccess} userId={props.user?._id} />
+    </Box>
+  );
+};
 
 export default RouteCreate;
 
