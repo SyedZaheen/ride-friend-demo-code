@@ -55,3 +55,18 @@ export const getUserById = (id) => {
 
   return { query, variables };
 };
+
+export const getRouteById = (id) => {
+  const query = gql`
+    query getRouteById($id: ID!) {
+      findRouteByID(id: $id) {
+        _id
+        nickName
+      }
+    }
+  `;
+
+  const variables = { id };
+
+  return { query, variables };
+};

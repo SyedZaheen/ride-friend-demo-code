@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import React, { Component } from "react";
 import RouteForm from "../../components/RouteForm";
 import auth0 from "../../utils/auth0";
@@ -7,7 +7,6 @@ import graphqlClient from "../../utils/graphqlClient";
 
 class RouteCreate extends Component {
   render = () => {
-    console.log(this.props);
     return (
       <Box p={5}>
         <h1>Create a new Route</h1>
