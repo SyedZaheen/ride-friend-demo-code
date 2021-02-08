@@ -56,21 +56,62 @@ export const dataGenerator = {
 
 export function calculateUnitScore(
   maxScore,
-  k,
   deviation,
-  percentageAtDeviation,
-  distance
+  distance,
+  percentageAtDeviation1,
+  percentageAtDeviation2
 ) {
-  let m =
-    (Math.E ** (-deviation * k) - percentageAtDeviation) /
-    (percentageAtDeviation - 1);
-  let l = maxScore * m + maxScore * Math.E ** (-deviation * k);
-  return l / (m + Math.E ** (k * (distance - deviation)));
+  let p, q, r, x, a, b, c, l, m, ekr, emk, result;
+  p = percentageAtDeviation1;
+  q = percentageAtDeviation2;
+  r = deviation;
+  x = distance;
+
+  a = (p / q - 1) * (p - 1);
+
+  b = (2 * p ** 2 - (p * q + p)) / q;
+
+  c = p ** 2 / q - 1;
+
+  l = (-b - Math.sqrt(b ** 2 - 4 * a * c)) / (2 * a);
+
+  ekr = (p - 1) * l + p;
+
+  m = maxScore * (l + ekr);
+
+  emk = ekr ** (-1 / r);
+
+  result = m / (l + emk ** x * ekr);
+
+  return result;
 }
 
-export function calculateTotalScore(distance, k, deviation1, deviation2) {
+const percentageAtDeviationGlobal1 = 0.7;
+const percentageAtDeviationGlobal2 = 0.4;
+
+export function calculateTotalScore(distance, deviation1, deviation2) {
   return (
-    calculateUnitScore(333 / 2, k, deviation1, 0.6, distance / 2) +
-    calculateUnitScore(333 / 2, k, deviation2, 0.6, distance / 2)
+    calculateUnitScore(
+      333 / 2,
+      deviation1,
+      Math.abs(distance) / 2,
+      0.6,
+      0.1
+    ) +
+    calculateUnitScore(
+      333 / 2,
+      deviation2,
+      Math.abs(distance) / 2,
+      0.6,
+      0.1
+    )
   );
+}
+
+export function nullHandler(value, defaultValue) {
+  if (value === null) {
+    return defaultValue;
+  } else {
+    return value;
+  }
 }

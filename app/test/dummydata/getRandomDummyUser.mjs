@@ -5,3 +5,6 @@ export default function randomDummyUser(pathToDummyData) {
     "User " + Math.floor(Math.random() * 10000)
   ];
 }
+
+//testing:
+// console.log(randomDummyUser("dummyData.json"))
