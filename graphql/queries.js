@@ -70,3 +70,32 @@ export const getRouteById = (id) => {
 
   return { query, variables };
 };
+
+export const getAllRoutes = () => {
+  return gql`
+    query getAllRoutes {
+      allRoutes {
+        data {
+          user {
+            _id
+          }
+          _id
+          startLocation {
+            lat
+            lng
+          }
+          endLocation {
+            lat
+            lng
+          }
+          startTime
+          startRadius
+          endRadius
+          returnRoute {
+            _id
+          }
+        }
+      }
+    }
+  `;
+};

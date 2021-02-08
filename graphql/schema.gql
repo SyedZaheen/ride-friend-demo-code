@@ -27,5 +27,6 @@ type Route {
 }
 
 type Query {
+  allRoutes: [Route!]
   getUserByAuthSub(authSub: String!): User
 }

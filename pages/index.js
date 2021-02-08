@@ -170,9 +170,22 @@ export default function Home(props) {
 export async function getServerSideProps({ req, res }) {
   const session = await auth0.getSession(req);
   if (session) {
-    const { query, variables } = getUserById(session.user.userId);
-    const userData = await graphqlClient.request(query, variables);
-    return { props: { user: userData.findUserByID } };
+    const userReq = getUserById(session.user.userId);
+    const userData = await graphqlClient.request(
+      userReq.query,
+      userReq.variables
+    );
+    const routesReq = getRoutesByUserId(session.user.userId);
+    const routes = await graphqlClient.request(
+      routesReq.query,
+      routesReq.variables
+    );
+    return {
+      props: {
+        user: userData.findUserByID,
+        routes: routes.findUserByID.routes.data,
+      },
+    };
   }
   return { props: { user: null } };
 }
