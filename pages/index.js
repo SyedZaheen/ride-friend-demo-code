@@ -206,7 +206,18 @@ export default function Home(props) {
     if (user && user.isDriver !== null) {
       return (
         <Box mt={2} p={2}>
-          <Heading as="h1">Dashboard</Heading>
+          <Flex justifyContent="space-between">
+            <Heading as="h1">Dashboard</Heading>
+            <Button
+              color="darkGrey"
+              bg="orange"
+              borderColor="darkGrey"
+              variant="outline"
+              _focus={{ boxShadow: "none" }}
+            >
+              Match Now
+            </Button>
+          </Flex>
           <Heading mt={2} color="darkGrey" size="lg" as="h2">
             My Routes
           </Heading>
