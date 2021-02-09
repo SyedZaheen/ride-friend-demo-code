@@ -51,10 +51,10 @@ export default async function (req, res) {
       startTime: minsFromMidNight(req.body.data.returnPickUpTime),
       endLocation: returnDropOffCoords,
       nickName: req.body.data.returnNickName,
-      timeDeviation: parseInt(req.body.data.returnTimeDeviation),
-      endRadius: parseInt(req.body.data.returnDropOffDeviation),
+      timeDeviation: parseInt(req.body.data.returnTimeDeviation) || 20,
+      endRadius: parseInt(req.body.data.returnDropOffDeviation) || 2000,
       startLocation: returnPickUpCoords,
-      startRadius: parseInt(req.body.data.returnPickUpDeviation),
+      startRadius: parseInt(req.body.data.returnPickUpDeviation) || 2000,
       user: { connect: req.body.data.userId },
     };
   }
@@ -64,10 +64,10 @@ export default async function (req, res) {
       startTime: minsFromMidNight(req.body.data.pickUpTime),
       endLocation: dropOffCoords,
       nickName: req.body.data.nickName,
-      timeDeviation: parseInt(req.body.data.timeDeviation),
-      endRadius: parseInt(req.body.data.dropOffDeviation),
+      timeDeviation: parseInt(req.body.data.timeDeviation) || 20,
+      endRadius: parseInt(req.body.data.dropOffDeviation) || 2000,
       startLocation: pickUpCoords,
-      startRadius: parseInt(req.body.data.pickUpDeviation),
+      startRadius: parseInt(req.body.data.pickUpDeviation) || 2000,
       user: { connect: req.body.data.userId },
       returnRoute: { create: returnRouteObj },
     });
@@ -82,10 +82,10 @@ export default async function (req, res) {
       startTime: minsFromMidNight(req.body.data.pickUpTime),
       endLocation: dropOffCoords,
       nickName: req.body.data.nickName,
-      timeDeviation: parseInt(req.body.data.timeDeviation),
-      endRadius: parseInt(req.body.data.dropOffDeviation),
+      timeDeviation: parseInt(req.body.data.timeDeviation) || 20,
+      endRadius: parseInt(req.body.data.dropOffDeviation) || 2000,
       startLocation: pickUpCoords,
-      startRadius: parseInt(req.body.data.pickUpDeviation),
+      startRadius: parseInt(req.body.data.pickUpDeviation) || 2000,
       user: { connect: req.body.data.userId },
     });
     graphqlClient
