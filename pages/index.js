@@ -9,7 +9,21 @@ import { useForm } from "react-hook-form";
 import graphqlClient from "../utils/graphqlClient";
 import boolean from "../utils/boolean";
 import Link from "next/link";
-import { Box, Button, Flex, Text, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  Heading,
+  HStack,
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  AccordionButton,
+  AccordionIcon,
+  VStack,
+} from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 // Home page will have 3 different states:
 // Not logged in
@@ -18,21 +32,25 @@ import { Box, Button, Flex, Text, Heading } from "@chakra-ui/react";
 
 const dummyData = {
   friends: [
-    { name: "Bob Dick", contact: "89192347", routesMatched: ["To Work"] },
+    { name: "Bob Dick", phoneNumber: "89192347", routesMatched: ["To Work"] },
     {
       name: "Tom Harry",
-      contact: "98787758",
+      phoneNumber: "98787758",
       routesMatched: ["Return from Work"],
     },
     {
       name: "Peter Johnson",
-      contact: "90078351",
+      phoneNumber: "90078351",
       routesMatched: ["To Work", "Return from work"],
     },
-    { name: "John Doe", contact: "87332715", routesMatched: ["MMA lesson"] },
+    {
+      name: "John Doe",
+      phoneNumber: "87332715",
+      routesMatched: ["MMA lesson"],
+    },
     {
       name: "Sally Doe",
-      contact: "88963213",
+      phoneNumber: "88963213",
       routesMatched: ["Grocery shopping"],
     },
   ],
@@ -86,11 +104,66 @@ export default function Home(props) {
     }
   });
 
+  const renderUserRoutes = (routes) => {
+    return routes.map((route, index) => {
+      const bgColor = index % 2 == 1 ? "lightPink" : "darkPink";
+      const textColor = index % 2 == 1 ? "darkGrey" : "offWhite";
+      return (
+        <AccordionItem borderRadius="md" border="none" bg={bgColor} p={2}>
+          <HStack>
+            <AccordionButton p={0} _hover={{}} _focus={{ boxShadow: "none" }}>
+              <AccordionIcon boxSize={7} />
+              <VStack width="100%">
+                <Text fontSize="1.5rem" color={textColor} fontWeight="bold">
+                  {route.nickName}
+                </Text>
+                <HStack>
+                  <Text color={textColor}>
+                    {route.startLocation}
+                    <strong> To </strong>
+                    {route.endLocation}
+                  </Text>
+                </HStack>
+              </VStack>
+            </AccordionButton>
+            <HStack>
+              <EditIcon
+                boxSize={7}
+                _hover={{
+                  cursor: "pointer",
+                }}
+              />
+              <DeleteIcon
+                boxSize={7}
+                _hover={{
+                  cursor: "pointer",
+                }}
+              />
+            </HStack>
+          </HStack>
+
+          <AccordionPanel pb={4}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </AccordionPanel>
+        </AccordionItem>
+      );
+    });
+  };
+
   const renderIndex = () => {
     if (user && user.isDriver !== null) {
       return (
-        <Box mt="10">
+        <Box mt={2} p={2}>
           <Heading as="h1">Dashboard</Heading>
+          <Heading color="darkGrey" size="lg" as="h2">
+            My Routes
+          </Heading>
+          <Accordion mt={2} boxShadow="sm" allowToggle>
+            {renderUserRoutes(dummyData.routes)}
+          </Accordion>
         </Box>
       );
     }
