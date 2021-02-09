@@ -207,7 +207,9 @@ export default function Home(props) {
       return (
         <Box mt={2} p={2}>
           <Flex justifyContent="space-between">
-            <Heading as="h1">Dashboard</Heading>
+            <Heading color="darkGrey" size="lg">
+              Welcome {user.authName}!
+            </Heading>
             <Button
               color="darkGrey"
               bg="orange"
@@ -218,16 +220,69 @@ export default function Home(props) {
               Match Now
             </Button>
           </Flex>
-          <Heading mt={2} color="darkGrey" size="lg" as="h2">
-            My Routes
-          </Heading>
-          <Accordion mt={2} boxShadow="sm" allowToggle>
+          <Accordion defaultIndex={[0]} mt={5} boxShadow="sm" allowToggle>
+            <AccordionItem borderRadius="md" border="none" bg="lightGrey" p={2}>
+              <HStack>
+                <AccordionButton
+                  p={0}
+                  _hover={{}}
+                  _focus={{ boxShadow: "none" }}
+                >
+                  <VStack width="100%">
+                    <Text
+                      pt="10px"
+                      pb="10px"
+                      paddingRight="50px"
+                      fontSize="1.5rem"
+                      color="offWhite"
+                      fontWeight="bold"
+                    >
+                      My Routes
+                    </Text>
+                  </VStack>
+                </AccordionButton>
+              </HStack>
+
+              <AccordionPanel color="offWhite" pb={4}>
+                Below are your routes. You can click on the route card to expand
+                it. Click on the icons on the left to edit or delete a route.
+                After you update your routes remember to click the match now
+                button to update your friend list!
+              </AccordionPanel>
+            </AccordionItem>
             {renderUserRoutes(dummyData.routes)}
           </Accordion>
-          <Heading mt={2} color="darkGrey" size="lg" as="h2">
-            My Friends
-          </Heading>
-          <Box p={2} borderRadius="md" mt={2} boxShadow="sm" bg="lightPink">
+          <Accordion defaultIndex={[0]} mt={10} boxShadow="sm" allowToggle>
+            <AccordionItem borderRadius="md" border="none" bg="lightGrey" p={2}>
+              <HStack>
+                <AccordionButton
+                  p={0}
+                  _hover={{}}
+                  _focus={{ boxShadow: "none" }}
+                >
+                  <VStack width="100%">
+                    <Text
+                      pt="10px"
+                      pb="10px"
+                      paddingRight="50px"
+                      fontSize="1.5rem"
+                      color="offWhite"
+                      fontWeight="bold"
+                    >
+                      My Friends
+                    </Text>
+                  </VStack>
+                </AccordionButton>
+              </HStack>
+              <AccordionPanel color="offWhite" pb={4}>
+                Below are your matched friends. Your matched friends share one
+                or more routes with you. Chat with them to finalise details and
+                deepen your friendship. You can find new friends and refresh
+                your friend list by clicking the match now button.
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+          <Box p={2} borderRadius="md" boxShadow="sm" bg="lightPink">
             {renderUserFriends(dummyData.friends)}
           </Box>
         </Box>
