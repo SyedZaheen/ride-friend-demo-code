@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import CustomRadioGroup from "../components/CustomRadioGroup";
 import auth0 from "../utils/auth0";
 import { getUserById } from "../graphql/queries";
+import { getRoutesByUserId } from "../graphql/queries";
 import { updateUser } from "../graphql/mutations";
 import { useForm } from "react-hook-form";
 import graphqlClient from "../utils/graphqlClient";
@@ -14,6 +15,50 @@ import { Box, Button, Flex, Text, Heading } from "@chakra-ui/react";
 // Not logged in
 // Logged in with all driver/rider stored in database
 // logged in but driver/rider hasn't been selected yet
+
+const dummyData = {
+  friends: [
+    { name: "Bob Dick", contact: "89192347", routesMatched: ["To Work"] },
+    {
+      name: "Tom Harry",
+      contact: "98787758",
+      routesMatched: ["Return from Work"],
+    },
+    {
+      name: "Peter Johnson",
+      contact: "90078351",
+      routesMatched: ["To Work", "Return from work"],
+    },
+    { name: "John Doe", contact: "87332715", routesMatched: ["MMA lesson"] },
+    {
+      name: "Sally Doe",
+      contact: "88963213",
+      routesMatched: ["Grocery shopping"],
+    },
+  ],
+  routes: [
+    {
+      nickName: "Return from work",
+      startLocation: "18 Adam Road",
+      endLocation: "Marina Bay Sands",
+    },
+    {
+      nickName: "To work",
+      startLocation: "Esplanade",
+      endLocation: "18 Adam Road",
+    },
+    {
+      nickName: "MMA Lesson",
+      startLocation: "18 Adam Road",
+      endLocation: "Beauuty World MRT Station",
+    },
+    {
+      nickName: "Grocery Shopping",
+      startLocation: "Esplanade",
+      endLocation: "Lot one shopper's mall, Choa Chu Kang",
+    },
+  ],
+};
 
 export default function Home(props) {
   const { register, handleSubmit, watch, errors } = useForm();
