@@ -28,6 +28,29 @@ class RouteForm extends Component {
     returnDropOffDeviation: "",
     returnTimeDeviation: "",
     loading: false,
+    errors: {
+      pickUpLocation: "",
+      pickUpTime: "",
+      dropOffLocation: "",
+      returnPickUpTime: "",
+      returnPickUpLocation: "",
+      returnDropOffCoords: "",
+    },
+  };
+
+  validate = (name) => {
+    let errorMessage = "This field is required!";
+    if (!this.state[name]) {
+      let newState = { ...this.state };
+      newState.errors[name] = errorMessage;
+      this.setState(newState);
+      console.log(this.state.errors[name]);
+    } else if (this.state[name] && this.state.errors[name]) {
+      let newState = { ...this.state };
+      newState.errors[name] = "";
+      this.setState(newState);
+      console.log("wiped", this.state.errors[name]);
+    }
   };
 
   handleSubmit = async (e) => {
@@ -54,12 +77,16 @@ class RouteForm extends Component {
         <Text>Route nick name</Text>
         <Input
           value={this.state.nickName}
-          onChange={(e) => this.setState({ nickName: e.target.value })}
+          onChange={(e) => {
+            this.setState({ nickName: e.target.value });
+          }}
+          onBlur={() => this.validate("nickName")}
           type="text"
           placeholder="enter a nickname, eg. home to work"
         />
         <Search
           setLocation={(value) => this.setState({ pickUpLocation: value })}
+          validate={() => this.validate("pickUpLocation")}
           label="Pick-up location"
         />
         <Text>Pick-up time</Text>
@@ -67,6 +94,7 @@ class RouteForm extends Component {
           value={this.state.pickUpTime}
           onChange={(e) => this.setState({ pickUpTime: e.target.value })}
           type="time"
+          onBlur={() => this.validate("pickUpTime")}
           placeholder="enter a pick-up time"
         />
         <Text>Pick-up time deviation</Text>
@@ -92,6 +120,7 @@ class RouteForm extends Component {
 
         <Search
           setLocation={(value) => this.setState({ dropOffLocation: value })}
+          validate={() => this.validate("dropOffLocation")}
           label="Drop-off location"
         />
         <Text>Destination Radius</Text>
@@ -116,6 +145,7 @@ class RouteForm extends Component {
               onChange={(e) =>
                 this.setState({ returnNickName: e.target.value })
               }
+              onBlur={() => this.validate("returnNickName")}
               type="text"
               placeholder="enter a nickname, eg. home to work"
             />
@@ -123,6 +153,7 @@ class RouteForm extends Component {
               setLocation={(value) =>
                 this.setState({ returnPickUpLocation: value })
               }
+              validate={() => this.validate("returnPickUpLocation")}
               label="Pick-up location"
             />
             <Text>Pick-up time</Text>
@@ -131,6 +162,7 @@ class RouteForm extends Component {
               onChange={(e) =>
                 this.setState({ returnPickUpTime: e.target.value })
               }
+              onBlur={() => this.validate("returnPickUpTime")}
               type="time"
               placeholder="enter a pick-up time"
             />
@@ -163,6 +195,7 @@ class RouteForm extends Component {
               setLocation={(value) =>
                 this.setState({ returnDropOffLocation: value })
               }
+              validate={() => this.validate("returnDropOffLocation")}
               label="Drop-off location"
             />
             <Text>Destination Radius</Text>

@@ -68,7 +68,10 @@ const Search = (props) => {
         <Text>{props.label}</Text>
         <Input
           onFocus={() => setSuggestionsOpen(true)}
-          onBlur={() => setSuggestionsOpen(false)}
+          onBlur={() => {
+            setSuggestionsOpen(false);
+            props.validate();
+          }}
           onChange={(e) => {
             setTerm(e.target.value);
           }}

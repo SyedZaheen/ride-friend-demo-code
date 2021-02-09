@@ -1,4 +1,5 @@
 # importing the required modules
+# there is no requirements.txt here. Need to pip install numpy and matplotlib fist.
 import matplotlib.pyplot as plt
 import numpy as np
 import math as ma
