@@ -27,9 +27,9 @@ export default function detailsArrayGenerator() { return [
 ]};
 
 //Then we pass it into the constructor to get a new User object
-//import User from "../data/createUser.mjs"
-// const UserObject = new User(detailsArrayGenerator);
-// console.log(UserObject)
+import User from "../data/createUser.mjs"
+const UserObject = new User(detailsArrayGenerator);
+console.log(UserObject)
 
   
 
