@@ -35,6 +35,9 @@ const HamburgerDropDown = () => {
         <MenuItem color="white" _hover={{ backgroundColor: "pink" }}>
           <Link href="/">Profile</Link>
         </MenuItem>
+        <MenuItem color="white" _hover={{ backgroundColor: "pink" }}>
+          <Link href="/api/logout">Logout</Link>
+        </MenuItem>
       </MenuList>
     </Menu>
   );
