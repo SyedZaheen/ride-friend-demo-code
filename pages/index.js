@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import CustomRadioGroup from "../components/CustomRadioGroup";
 import auth0 from "../utils/auth0";
 import { getUserById } from "../graphql/queries";
+import { getRoutesByUserId } from "../graphql/queries";
 import { updateUser } from "../graphql/mutations";
 import { useForm } from "react-hook-form";
 import graphqlClient from "../utils/graphqlClient";

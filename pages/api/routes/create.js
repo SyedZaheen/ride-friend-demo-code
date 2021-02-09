@@ -2,7 +2,6 @@ const fetch = require("node-fetch");
 import graphqlClient from "../../../utils/graphqlClient";
 import minsFromMidNight from "../../../utils/minsFromMidNight";
 import { createRoute } from "../../../graphql/mutations";
-import { route } from "next/dist/next-server/server/router";
 
 const googleApiKey = process.env.GOOGLE_API_KEY;
 
