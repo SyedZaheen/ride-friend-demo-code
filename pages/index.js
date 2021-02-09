@@ -22,8 +22,10 @@ import {
   AccordionButton,
   AccordionIcon,
   VStack,
+  Avatar,
+  Badge,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, ChatIcon } from "@chakra-ui/icons";
 
 // Home page will have 3 different states:
 // Not logged in
@@ -153,17 +155,70 @@ export default function Home(props) {
     });
   };
 
+  const renderUserFriends = (friends) => {
+    return friends.map((friend) => {
+      return (
+        <Flex
+          borderBottom="1px"
+          borderBottomStyle="dashed"
+          borderBottomColor="lightGrey"
+          p={2}
+          justifyContent="space-between"
+        >
+          <HStack>
+            <Avatar src="https://bit.ly/sage-adebayo" />
+            <Box ml="3">
+              <Text fontSize="1.5rem" color="darkGrey" fontWeight="bold">
+                {friend.name}
+                <Badge ml="1" colorScheme="green">
+                  Pet
+                </Badge>
+              </Text>
+              <Text color="darkGrey" fontSize="sm">
+                Contact: {friend.phoneNumber}
+              </Text>
+              <Text color="darkGrey" fontSize="sm">
+                Routes Matched:{" |"}
+                {friend.routesMatched.map((route) => (
+                  <>
+                    {" "}
+                    <Link color="teal.500" href="#">
+                      {route}
+                    </Link>
+                    {" |"}
+                  </>
+                ))}
+              </Text>
+            </Box>
+          </HStack>
+          <ChatIcon
+            boxSize={7}
+            _hover={{
+              cursor: "pointer",
+            }}
+          />
+        </Flex>
+      );
+    });
+  };
+
   const renderIndex = () => {
     if (user && user.isDriver !== null) {
       return (
         <Box mt={2} p={2}>
           <Heading as="h1">Dashboard</Heading>
-          <Heading color="darkGrey" size="lg" as="h2">
+          <Heading mt={2} color="darkGrey" size="lg" as="h2">
             My Routes
           </Heading>
           <Accordion mt={2} boxShadow="sm" allowToggle>
             {renderUserRoutes(dummyData.routes)}
           </Accordion>
+          <Heading mt={2} color="darkGrey" size="lg" as="h2">
+            My Friends
+          </Heading>
+          <Box p={2} borderRadius="md" mt={2} boxShadow="sm" bg="lightPink">
+            {renderUserFriends(dummyData.friends)}
+          </Box>
         </Box>
       );
     }
@@ -274,7 +329,7 @@ export default function Home(props) {
   };
 
   return (
-    <Box bg="pink" height="100vh" width="100vw">
+    <Box bg="pink" height="100%" width="100%">
       <Navbar user={user} />
       <Box>{renderIndex()}</Box>
     </Box>
