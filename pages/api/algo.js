@@ -56,7 +56,6 @@ export default async function (req, res) {
   //S: to the Distance Matrix API for every single distance to be calculated (wtf). Not using that for now,
   //S: using a simple calculateDistance([coordiates1],[coordiates2]) from my import to calculate distance.
   function allScores(
-    rid,
     startLocationUser,
     startTimeUser,
     endLocationUser,
@@ -145,8 +144,7 @@ export default async function (req, res) {
 
           listOfScores.push([
             level1 + Math.floor(level2),
-            allRoutes[i].user._id,
-            rid,
+            allRoutes[i].user._id
           ]);
           //S: Push the scores into a 2-dimensional array along with the user ID of each route
 
