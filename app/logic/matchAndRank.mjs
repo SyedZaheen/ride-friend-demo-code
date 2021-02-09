@@ -9,10 +9,15 @@ import {
   calculateDistance as cd,
   calculateTotalScore,
   nullHandler,
+  dataGenerator as d,
 } from "./mathematicalFunctions.mjs";
 import allDummyUsers from "../test/dummydata/getAllDummyUsers.mjs";
 
 const testUser = randomDummyUser("../test/dummydata/dummyData.json");
+testUser.wantSameSex = d.eitherOr(
+  () => true,
+  () => false
+);
 const targetUser = testUser;
 // console.log(testUser);
 let {
@@ -41,7 +46,7 @@ function allScores() {
       // console.log(typeof listOfScores);
       for (let eachUser in allOtherUsers) {
         // console.log(allOtherUsers[eachUser])
-        const {
+        let {
           pickupLocation: PuL2,
           dropoffLocation: DoL2,
           pickupTime: PuT2,
@@ -56,7 +61,10 @@ function allScores() {
           returnDropOffRadius: RDoR2,
           returnPickupTimeBuffer: RPuTB2,
         } = allOtherUsers[eachUser];
-
+        // LEVEL 1
+        let level1 = (testUser.wantSameSex && iM1 === iM2) ? 10 ** 7 : 0;
+        
+        //LEVEL 2
         let pickupLocationComponent = calculateTotalScore(
           cd(PuL1, PuL2),
           nullHandler(PuLR1, 1),
@@ -72,18 +80,46 @@ function allScores() {
           nullHandler(PuTB1, 15),
           nullHandler(PuTB2, 15)
         );
-        // console.log(pickupLocationComponent,dropOffLocationComponent,pickupTimeComponent)
+
         let level2 =
           pickupLocationComponent +
           dropOffLocationComponent +
           pickupTimeComponent;
-        // console.log(level2);
-        listOfScores.push(level2);
-        // console.log(listOfScores)
-        // resolve(listOfScores);
-        // break;
+
+        // LEVEL 3
+        let returnPickupComponent =
+          RP1 && RP2
+            ? calculateTotalScore(
+                cd(RP1, RP2),
+                nullHandler(RPuR1, 1),
+                nullHandler(RPuR2, 1)
+              )
+            : 0;
+        let returnDropOffComponent =
+          RDo1 && RDo2
+            ? calculateTotalScore(
+                cd(RDo1, RDo2),
+                nullHandler(RDoR1, 1),
+                nullHandler(RDoR2, 1)
+              )
+            : 0;
+
+        let returnPickupTimeComponent =
+          RPuT1 && RPuT2
+            ? calculateTotalScore(RPuT1 - RPuT2, RPuTB1, RPuTB2)
+            : 0;
+
+        let level3 =
+          returnPickupComponent +
+          returnDropOffComponent +
+          returnPickupTimeComponent;
+
+        listOfScores.push([
+          level1 + Math.floor(level2) * 1000 + Math.floor(level3),
+          eachUser,
+        ]);
         if (listOfScores.length >= 9999) {
-          listOfScores.sort((a, b) => b - a);
+          listOfScores.sort((a, b) => b[0] - a[0]);
           resolve(listOfScores);
           break;
         } else {
@@ -97,11 +133,11 @@ function allScores() {
 }
 async function getTop10() {
   let scores = await allScores();
-  console.log(scores.slice(0 , 10));
+  let top10 = scores.slice(0, 10);
+  console.log(top10);
 }
 
 getTop10();
-
 
 function passOnResuts(results) {
   notDefined(passOnResuts);
