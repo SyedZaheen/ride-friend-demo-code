@@ -27,10 +27,36 @@ export const getRoutesByUserId = (id) => {
       findUserByID(id: $id) {
         routes {
           data {
-            nickName
+            user {
+              _id
+              isMale
+              wantSameSex
+            }
             _id
+            startTime
+            startLocation {
+              lat
+              lng
+            }
+            startRadius
+            endRadius
+            endLocation {
+              lat
+              lng
+            }
             returnRoute {
-              nickName
+              _id
+              startTime
+              startLocation {
+                lat
+                lng
+              }
+              startRadius
+              endRadius
+              endLocation {
+                lat
+                lng
+              }
             }
           }
         }
@@ -78,6 +104,8 @@ export const getAllRoutes = () => {
         data {
           user {
             _id
+            isMale
+            wantSameSex
           }
           _id
           startLocation {
@@ -93,6 +121,17 @@ export const getAllRoutes = () => {
           endRadius
           returnRoute {
             _id
+            startTime
+            startLocation {
+              lat
+              lng
+            }
+            startRadius
+            endRadius
+            endLocation {
+              lat
+              lng
+            }
           }
         }
       }

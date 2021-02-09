@@ -7,7 +7,7 @@
 
 import graphqlClient from "../../utils/graphqlClient";
 import { getRoutesByUserId, getAllRoutes } from "../../graphql/queries";
-import { updateUser } from "../../graphql/mutations"
+import { updateUser } from "../../graphql/mutations";
 import {
   calculateDistance as cd,
   calculateTotalScore,
@@ -30,14 +30,6 @@ export default async function (req, res) {
 
   //S: findUserByID.routes.data does not have startLocation, startTime, endLocation etc etc. I need this.
   //S: Destructure the route to variables
-  let [
-    startLocationUser,
-    startTimeUser,
-    endLocationUser,
-    startRadiusUser,
-    endRadiusUser,
-    timeDeviationUser,
-  ] = userRoutes;
 
   // I need to use this to format the Location objects in a way that I can calculate distance
   function destructureReturnArray(coordinateObj) {
@@ -63,26 +55,34 @@ export default async function (req, res) {
   //S: I use a Promise cuz this can take a long ass time to calculate, especially if I'm making API calls
   //S: to the Distance Matrix API for every single distance to be calculated (wtf). Not using that for now,
   //S: using a simple calculateDistance([coordiates1],[coordiates2]) from my import to calculate distance.
-  function allScores() {
+  function allScores(
+    rid,
+    startLocationUser,
+    startTimeUser,
+    endLocationUser,
+    startRadiusUser,
+    endRadiusUser,
+    timeDeviationUser
+  ) {
     return new Promise((resolve, reject) => {
       try {
         let listOfScores = [];
         //S: This will be the list of scores. Putting it up here cuz scope and I hate var
-        for (let eachRoute in allRoutes) {
+        for (let i = 0; i < allRoutes.length; i++) {
           //S: Does this for loop work this way? Anyway,
           let {
-            startLocationOther,
-            startTimeOther,
-            endLocationOther,
-            startRadiusOther,
-            endRadiusOther,
-            timeDeviationOther,
-          } = allRoutes[eachRoute];
+            startLocation: startLocationOther,
+            startTime: startTimeOther,
+            endLocation: endLocationOther,
+            startRadius: startRadiusOther,
+            endRadius: endRadiusOther,
+            timeDeviation: timeDeviationOther,
+          } = allRoutes[i];
 
           // LEVEL 1
           let level1 =
             userRoutesRes.findUserByID.wantSameSex &&
-            userRoutesRes.findUserByID.isMale === eachRoute.user.isMale
+            userRoutesRes.findUserByID.isMale === allRoutes[i].user.isMale
               ? 1000
               : 0;
           //S: If you want the same sex and get it, then award this man 1000 points. Otherwise, you get 0 points for level 1.
@@ -143,7 +143,11 @@ export default async function (req, res) {
           //   returnDropOffComponent +
           //   returnstartTimeComponent;
 
-          listOfScores.push([level1 + Math.floor(level2), eachRoute.user._id]);
+          listOfScores.push([
+            level1 + Math.floor(level2),
+            allRoutes[i].user._id,
+            rid,
+          ]);
           //S: Push the scores into a 2-dimensional array along with the user ID of each route
 
           if (listOfScores.length >= 9999) {
@@ -163,22 +167,47 @@ export default async function (req, res) {
     });
   }
 
-  async function getTop10UserIDs() {
-    let scores = await allScores();
-    let top10 = scores.slice(0, 10);
-    console.log(top10);
+  async function getTop10UserIDsForAllRoutes() {
+    let results = [];
+    for (let i = 0; i < userRoutes.length; i++) {
+      let {
+        startLocation,
+        startTime,
+        endLocation,
+        startRadius,
+        endRadius,
+        timeDeviation,
+      } = userRoutes[0];
+      const scores = await allScores(
+        startLocation,
+        startTime,
+        endLocation,
+        startRadius,
+        endRadius,
+        timeDeviation
+      );
+      let top10 = scores.slice(0, 10);
+      console.log(top10);
+      results.push(...scores);
+    }
+    return results;
   }
 
-  let top10UserIDs = await getTop10UserIDs();
-  
+  let top10UserIDsForAllRoutes = await getTop10UserIDsForAllRoutes();
+  const idsArray = [];
+  for (let i = 0; i < top10UserIDsForAllRoutes.length; i++) {
+    idsArray.push(top10UserIDsForAllRoutes[i][1]);
+  }
+
   // send response to database to add matched users to friends' list
   //S: My brain hurts trying to understand how this is done asynchronously. I don't know if this is right. Pls help
-  for (const userID of top10UserIDs){
-    const updateReq = await updateUser(userID, data ) //something data. Also whats wrong with await :(
-    const updateRes = graphqlClient.request(updateReq.mutation , updateReq.variables);
-    console.log(updateRes)
-    //S: LMAO I'M DONE GOD HELP MY SOUL
-  }
+  const updateReq = updateUser(_id, { friends: idsArray }); //something data. Also whats wrong with await :(
+  const updateRes = await graphqlClient.request(
+    updateReq.mutation,
+    updateReq.variables
+  );
+  console.log(updateRes);
+  //S: LMAO I'M DONE GOD HELP MY SOUL
 
   // send res to front end
   res.send("ok");
